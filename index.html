@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Finder</title>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 30px;
+            background-color: #212121;
+            height: 100vh;
+
+        }
+        .div{
+            /* border: 2px solid white; */
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #url_id{
+            border: 3px solid rgb(241, 237, 237);
+            background-color: #B9FBC0;
+            box-shadow: 6px 6px 0px black;
+            margin: 10px;
+            padding: 5px 20px;
+            font-size: 1rem;
+            outline: none;
+            border-radius: 30px;
+            width: au;
+        
+
+        }
+        .profile{
+
+            border: 3px solid black;
+            background-color: #B9FBC0;
+            box-shadow: 6px 6px 0px black;
+            display: none;
+            padding: 20px 30px;
+            border-radius:30px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+    
+        }
+        img{
+        border: 8px solid rgb(251, 247, 247);
+        box-shadow: 1px 5px 10px black;
+        }
+        .show{
+            display:flex;
+        }
+        #button{
+            
+            border: 3px solid black;
+            background-color: #B9FBC0;
+            box-shadow: 6px 6px 0px black;
+            padding: 5px 20px;
+            font-size: 1.5rem;
+            outline: none;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .profile h1{
+            font-size: 1.3rem; 
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+        <div class="div">
+            <input type="text" name="url" id="url_id" placeholder="Enter GitHub UserName">
+            <button id="button" type="submit"> serch </button>
+        </div>
+
+        <div class="profile"></div>
+   
+
+   
+</body>
+    <script>
+        const input = document.getElementById('url_id')
+        const button = document.getElementById('button')
+        const profile = document.querySelector('.profile')
+        const username = document.createElement('h1')
+        const userLocation = document.createElement('h1')
+        const usercompany = document.createElement('h1')
+        const userRepo = document.createElement('h1')
+        const userFollowers = document.createElement('h1')
+        const userFollowing = document.createElement('h1')
+
+    
+        button.addEventListener('click', function(e){
+            url = `https://api.github.com/users/${input.value}`;
+            const api = new XMLHttpRequest
+            api.open('get',url)
+            api.onreadystatechange = function(){
+                console.log(api.readyState)
+                if(api.readyState === 4){
+                    const data = JSON.parse(this.responseText)
+                    // previes profile clean
+                    profile.classList.add('show')
+                    profile.innerHTML = ' '
+
+                    // image 
+                    const img = document.createElement('img')
+                    img.src = data.avatar_url
+                    img.alt = 'GitHub Profile Image'
+                    img.width = 150
+                    img.style.borderRadius = '100px'
+                    profile.appendChild(img)
+
+                    // user name
+                    username.innerHTML = `UserName : ${data.login}`
+                    profile.appendChild(username)
+
+                    //user location
+                    userLocation.innerHTML = `Location: ${data.location}`
+                    profile.appendChild(userLocation)
+
+                    // user company name
+                    usercompany.innerHTML = `Company: ${data.company}`
+                    profile.appendChild(usercompany)
+
+                    // user followers
+                    userFollowers.innerHTML = `Followers: ${data.followers}`
+                    profile.appendChild(userFollowers)
+
+                    // user following
+                    userFollowing.innerHTML = `following: ${data.following}`
+                    profile.appendChild(userFollowing)
+
+                    // public repo
+                    userRepo.innerHTML = `Public Repository: ${data.public_repos}`
+                    profile.appendChild(userRepo)
+
+
+                    
+                    
+                    
+
+
+
+
+
+
+
+                
+                }}
+
+            api.send()
+
+        
+        })
+
+
+        
+    </script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</html>
